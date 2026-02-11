@@ -144,6 +144,9 @@ function startGame() {
     
     document.getElementById('gameArea').style.display = 'block';
     
+    gameState.currentPlayer = 1;
+    updateCurrentPlayer();
+    
     nextRound();
 }
 
@@ -153,7 +156,6 @@ function nextRound() {
         return;
     }
     
-   
     if (gameState.currentWord !== '') {
         gameState.currentPlayer = gameState.currentPlayer === 1 ? 2 : 1;
     }
