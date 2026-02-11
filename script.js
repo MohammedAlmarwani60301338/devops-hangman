@@ -153,6 +153,11 @@ function nextRound() {
         return;
     }
     
+   
+    if (gameState.currentWord !== '') {
+        gameState.currentPlayer = gameState.currentPlayer === 1 ? 2 : 1;
+    }
+    
     gameState.guessedLetters = [];
     gameState.wrongGuesses = 0;
     gameState.gameActive = true;
@@ -313,6 +318,4 @@ function gameLost() {
     
     statusMsg.textContent = `😢 ${currentPlayerName} lost! The word was: ${gameState.currentWord}`;
     statusDiv.classList.add('show', 'loser');
-    
-    gameState.currentPlayer = gameState.currentPlayer === 1 ? 2 : 1;
 }
