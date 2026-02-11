@@ -94,6 +94,22 @@ function displayWordBank() {
 function addWord() {
     const input = document.getElementById('newWord');
     const word = input.value.trim().toUpperCase();
+    
+    
+    if (word === '') {
+        alert('Word cannot be empty!');
+        return;
+    }
+    
+    if (!/^[A-Z]+$/.test(word)) {
+        alert('Word must contain only letters (A-Z)! No numbers, spaces, or special characters allowed.');
+        return;
+    }
+   
+    if (wordBank.includes(word)) {
+        alert('This word already exists in the word bank!');
+        return;
+    }
 
     wordBank.push(word);
     input.value = '';
