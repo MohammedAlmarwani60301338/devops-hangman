@@ -104,7 +104,27 @@ function addWord() {
 function editWord(index) {
     const newWord = prompt('Edit word:', wordBank[index]);
     if (newWord) {
-        wordBank.splice(index, 1);
+        const word = newWord.trim().toUpperCase();
+        
+    
+        if (word === '') {
+            alert('Word cannot be empty!');
+            return;
+        }
+        
+        if (!/^[A-Z]+$/.test(word)) {
+            alert('Word must contain only letters (A-Z)!');
+            return;
+        }
+        
+       
+        if (wordBank.includes(word) && word !== wordBank[index]) {
+            alert('This word already exists in the word bank!');
+            return;
+        }
+        
+        
+        wordBank[index] = word;  
         saveWordBank();
         displayWordBank();
     }
