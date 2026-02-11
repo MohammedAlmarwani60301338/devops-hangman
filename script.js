@@ -94,6 +94,22 @@ function displayWordBank() {
 function addWord() {
     const input = document.getElementById('newWord');
     const word = input.value.trim().toUpperCase();
+    
+    
+    if (word === '') {
+        alert('Word cannot be empty!');
+        return;
+    }
+    
+    if (!/^[A-Z]+$/.test(word)) {
+        alert('Word must contain only letters (A-Z)! No numbers, spaces, or special characters allowed.');
+        return;
+    }
+   
+    if (wordBank.includes(word)) {
+        alert('This word already exists in the word bank!');
+        return;
+    }
 
     wordBank.push(word);
     input.value = '';
@@ -104,7 +120,27 @@ function addWord() {
 function editWord(index) {
     const newWord = prompt('Edit word:', wordBank[index]);
     if (newWord) {
-        wordBank.splice(index, 1);
+        const word = newWord.trim().toUpperCase();
+        
+    
+        if (word === '') {
+            alert('Word cannot be empty!');
+            return;
+        }
+        
+        if (!/^[A-Z]+$/.test(word)) {
+            alert('Word must contain only letters (A-Z)!');
+            return;
+        }
+        
+       
+        if (wordBank.includes(word) && word !== wordBank[index]) {
+            alert('This word already exists in the word bank!');
+            return;
+        }
+        
+        
+        wordBank[index] = word;  
         saveWordBank();
         displayWordBank();
     }
@@ -112,6 +148,7 @@ function editWord(index) {
 
 function deleteWord(index) {
     if (confirm('Are you sure you want to delete this word?')) {
+        wordBank.splice(index, 1);  
         saveWordBank();
         displayWordBank();
     }
@@ -144,6 +181,9 @@ function startGame() {
     
     document.getElementById('gameArea').style.display = 'block';
     
+    gameState.currentPlayer = 1;
+    updateCurrentPlayer();
+    
     nextRound();
 }
 
@@ -151,6 +191,10 @@ function nextRound() {
     if (wordBank.length === 0) {
         alert('No words in the word bank! Add some words first.');
         return;
+    }
+    
+    if (gameState.currentWord !== '') {
+        gameState.currentPlayer = gameState.currentPlayer === 1 ? 2 : 1;
     }
     
     gameState.guessedLetters = [];
@@ -318,6 +362,4 @@ function gameLost() {
     
     statusMsg.textContent = `😢 ${currentPlayerName} lost! The word was: ${gameState.currentWord}`;
     statusDiv.classList.add('show', 'loser');
-    
-    gameState.currentPlayer = gameState.currentPlayer === 1 ? 2 : 1;
 }
